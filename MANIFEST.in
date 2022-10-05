@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include vonkavy *.css
+recursive-include vonkavy *.csv
+recursive-include vonkavy *.html
+recursive-include vonkavy *.ico
+recursive-include vonkavy *.js
+recursive-include vonkavy *.json
+recursive-include vonkavy *.md
+recursive-include vonkavy *.png
+recursive-include vonkavy *.py
+recursive-include vonkavy *.svg
+recursive-include vonkavy *.txt
+recursive-exclude vonkavy *.pyc
