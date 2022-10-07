@@ -179,3 +179,6 @@ user_data_fields = [
 # 	"vonkavy.auth.validate"
 # ]
 
+#Fixtures
+fixtures = ["Custom Field", "Property Setter",]
+

@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-10-05 17:03:04.846579",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_name",
+  "qty",
+  "breakage",
+  "total",
+  "percent",
+  "mortality",
+  "feeds",
+  "weight",
+  "water"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "options": "Item"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "depends_on": "eval:doc.item_name==\"Eggs\";",
+   "fieldname": "total",
+   "fieldtype": "Data",
+   "label": "Total"
+  },
+  {
+   "depends_on": "eval:doc.item_name==\"Eggs\";",
+   "fieldname": "percent",
+   "fieldtype": "Float",
+   "label": "Percent"
+  },
+  {
+   "depends_on": "eval:doc.item_name==\"kuku\";",
+   "fieldname": "mortality",
+   "fieldtype": "Int",
+   "label": "Mortality"
+  },
+  {
+   "fieldname": "feeds",
+   "fieldtype": "Data",
+   "label": "Feeds"
+  },
+  {
+   "depends_on": "eval:doc.item_name==\"kuku\";",
+   "fieldname": "weight",
+   "fieldtype": "Float",
+   "label": "Weight"
+  },
+  {
+   "fieldname": "water",
+   "fieldtype": "Float",
+   "label": "Water"
+  },
+  {
+   "depends_on": "eval:doc.item_name==\"Eggs\";",
+   "fieldname": "breakage",
+   "fieldtype": "Int",
+   "label": "Breakage"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-10-05 17:25:14.320043",
+ "modified_by": "Administrator",
+ "module": "Poultry",
+ "name": "Batch Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
