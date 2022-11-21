@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "SR.#####",
+ "creation": "2022-11-21 09:45:34.195712",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "batch_no",
+  "date",
+  "day",
+  "vaccine",
+  "tray",
+  "eggs",
+  "breakage",
+  "total"
+ ],
+ "fields": [
+  {
+   "fieldname": "batch_no",
+   "fieldtype": "Data",
+   "label": "Batch No"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "day",
+   "fieldtype": "Data",
+   "label": "Day"
+  },
+  {
+   "fieldname": "vaccine",
+   "fieldtype": "Data",
+   "label": "Vaccine"
+  },
+  {
+   "fieldname": "tray",
+   "fieldtype": "Data",
+   "label": "Tray"
+  },
+  {
+   "fieldname": "eggs",
+   "fieldtype": "Data",
+   "label": "Eggs"
+  },
+  {
+   "fieldname": "breakage",
+   "fieldtype": "Data",
+   "label": "Breakage"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Data",
+   "label": "Total"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-11-21 09:46:47.673195",
+ "modified_by": "Administrator",
+ "module": "Vonkavy",
+ "name": "Shamba Record",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Shamba User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
