@@ -26,15 +26,19 @@ def execute(filters=None):
 		row["breakage"] = get_egg_qty(d.posting_date, d.batch, "Mayai", "Dakawa Breakage - VAC") or 0
 		row["total_eggs"] = row["eggs"] + row["breakage"]
 
+		# kuku_var section to ignore
 		kuku_var = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Dakawa store - VAC") or 0
 		if kuku_var !=0:
 			row["kuku_stock"] = kuku_var
 		else:
 			row["kuku_stock"] = get_kuku("Kuku", "Dakawa store - VAC")
-		row["mortality"] = get_kuku_qty(d.posting_date, d.batch, "Kuku2", "Dakawa Mortality - VAC") or 0
+		
+		# end of kuku_var
 
-		row["kuku_sold"] = get_kuku_sold(d.posting_date, d.batch,"Kuku2", "Dakawa store - VAC", "Sales Invoice") or 0
-		row["kuku_by_batch"] = get_kuku_batch(d.posting_date, d.batch,"Kuku2", "Dakawa store - VAC") or 0 
+		row["mortality"] = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Dakawa Mortality - VAC") or 0
+
+		row["kuku_sold"] = get_kuku_sold(d.posting_date, d.batch,"Kuku", "Dakawa store - VAC", "Sales Invoice") or 0
+		row["kuku_by_batch"] = get_kuku_batch(d.posting_date, d.batch,"Kuku", "Dakawa store - VAC") or 0 
 
 		if row["total_eggs"] !=0:
 			row["percent"] = (row["eggs"] / row["total_eggs"] ) * 100
