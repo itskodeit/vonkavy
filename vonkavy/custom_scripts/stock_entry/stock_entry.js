@@ -1,11 +1,11 @@
-erpnext.stock.StockEntry = erpnext.stock.StockEntry.extend({
+/*erpnext.stock.StockEntry = erpnext.stock.StockEntry.extend({
 	onload: function(frm){
-
+		var me = this;
 	},
 	batch: function(doc) {
 		this.set_warehouse_in_children(doc.items, "batch_no", doc.batch);
 	},
-	/*batch: function(frm) {
+	batch: function(frm) {
 		$.each(child_table || [], function(i, item) {
 				frappe.model.set_value(doctype, item.name, warehouse_field, warehouse);
 			});
@@ -15,7 +15,7 @@ erpnext.stock.StockEntry = erpnext.stock.StockEntry.extend({
 		refresh_field(frm.doc.week);
 		console.log(weekNumber);
 		console.log(frappe.datetime.get_diff(to_date,frm.doc.manufacturing_date))
-	},*/
+	},
 });
 
-$.extend(cur_frm.cscript, new erpnext.stock.StockEntry({frm: cur_frm}));
+$.extend(cur_frm.cscript, new erpnext.stock.StockEntry({frm: cur_frm}));*/

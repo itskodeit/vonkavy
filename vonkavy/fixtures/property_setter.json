@@ -2344,5 +2344,22 @@
   "property_type": "Check",
   "row_name": null,
   "value": "0"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Miamala Record",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "muamala_aina",
+  "modified": "2022-12-16 22:08:53.431996",
+  "name": "Miamala Record-muamala_aina-options",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "options",
+  "property_type": "Text",
+  "row_name": null,
+  "value": "\nKuweka\nKutoa\nOngeza Float\nOngeza Cash\nOngeza Float from Cash"
  }
 ]
