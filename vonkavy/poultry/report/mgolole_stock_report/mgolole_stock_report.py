@@ -81,6 +81,6 @@ def get_data(filters):
 		
 		from `tabBin` tb
 		where tb.docstatus !=2 and 
-		(tb.warehouse = "Dukani - VAC")
+		(tb.warehouse = "Mgolole store - VAC" or tb.warehouse = "Mgolole Mortality - VAC" )
 		"""+ where, where_filter, as_dict=1)
 	return data

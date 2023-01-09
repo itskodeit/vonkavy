@@ -8,7 +8,7 @@ var from_date = aday.toISOString().split('T')[0];
 var cur_report = null;
 
 
-frappe.query_reports["Vonkavy Stock Report"] = {
+frappe.query_reports["Mgolole Stock Report"] = {
 	"filters": [
 		{
 			"fieldname":"from_date",
@@ -23,12 +23,12 @@ frappe.query_reports["Vonkavy Stock Report"] = {
 			"fieldtype": "Date",
 			"default": to_date
 		},
-		{
+		/*{
 			"fieldname":"warehouse",
 			"label": __("Warehouse"),
 			"fieldtype": "Link",
 			"options": "Warehouse",
 			"default": "Godown Store - VAC",
-		},
+		},*/
 	]
 };
