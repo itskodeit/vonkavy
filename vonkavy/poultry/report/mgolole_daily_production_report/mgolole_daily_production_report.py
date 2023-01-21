@@ -22,33 +22,33 @@ def execute(filters=None):
 		row['name'] = d.name
 		row['batch_ref'] = d.batch
 
-		row["tray"] = get_egg_qty(d.posting_date, d.batch, "Mayai", "Dakawa store - VAC") or 0
+		row["tray"] = get_egg_qty(d.posting_date, d.batch, "Mayai", "Mgolole store - VAC") or 0
 		row["eggs"] = (row["tray"] * 30)
-		row["breakage"] = get_egg_qty(d.posting_date, d.batch, "Mayai", "Dakawa Breakage - VAC") or 0
+		row["breakage"] = get_egg_qty(d.posting_date, d.batch, "Mayai", "Mgolole Breakage - VAC") or 0
 		row["total_eggs"] = row["eggs"] + row["breakage"]
 
 		# kuku_var section to ignore
-		kuku_var = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Dakawa store - VAC") or 0
+		kuku_var = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Mgolole store - VAC") or 0
 		if kuku_var !=0:
 			row["kuku_stock"] = kuku_var
 		else:
-			row["kuku_stock"] = get_kuku("Kuku", "Dakawa store - VAC")
+			row["kuku_stock"] = get_kuku("Kuku", "Mgolole store - VAC")
 		
 		# end of kuku_var
 
-		row["mortality"] = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Dakawa Mortality - VAC") or 0
+		row["mortality"] = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Mgolole Mortality - VAC") or 0
 
-		row["kuku_sold"] = get_kuku_sold(d.posting_date, d.batch,"Kuku", "Dakawa store - VAC", "Sales Invoice") or 0
-		row["kuku_by_batch"] = get_kuku_batch(d.posting_date, d.batch,"Kuku", "Dakawa store - VAC") or 0 
+		row["kuku_sold"] = get_kuku_sold(d.posting_date, d.batch,"Kuku", "Mgolole store - VAC", "Sales Invoice") or 0
+		row["kuku_by_batch"] = get_kuku_batch(d.posting_date, d.batch,"Kuku", "Mgolole store - VAC") or 0 
 
 		if row["total_eggs"] !=0:
 			row["percent"] = (row["eggs"] / row["total_eggs"] ) * 100
 		else:
 			row["percent"] = 0
 
-		row["feeds"] = get_consumed_qty(d.posting_date, d.batch, "Layers Mash", "Dakawa store - VAC") or 0
-		row["vaccine"] = get_consumed_qty(d.posting_date, d.batch, "Vaccine", "Dakawa store - VAC") or 0
-		row["water"] = get_consumed_qty(d.posting_date, d.batch, "Water", "Dakawa store - VAC") or 0
+		row["feeds"] = get_consumed_qty(d.posting_date, d.batch, "Layers Mash", "Mgolole store - VAC") or 0
+		row["vaccine"] = get_consumed_qty(d.posting_date, d.batch, "Vaccine", "Mgolole store - VAC") or 0
+		row["water"] = get_consumed_qty(d.posting_date, d.batch, "Water", "Mgolole store - VAC") or 0
 	
 		# if d.posting_date == row['date'] and d.batch == row["batch_ref"]:
 			

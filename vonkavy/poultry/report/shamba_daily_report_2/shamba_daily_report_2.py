@@ -22,34 +22,44 @@ def execute(filters=None):
 		row['name'] = d.name
 		row['batch_ref'] = d.batch
 
-		row["eggs"] = get_egg_qty(d.posting_date, d.batch, "Eggs", "Shamba - Vk") or 0
-		row["breakage"] = get_egg_qty(d.posting_date, d.batch, "Eggs", "Breakage Warehouse - Vk") or 0
+		row["tray"] = get_egg_qty(d.posting_date, d.batch, "Mayai", "Mgolole store - VAC") or 0
+		row["eggs"] = (row["tray"] * 30)
+		row["breakage"] = get_egg_qty(d.posting_date, d.batch, "Mayai", "Dakawa Breakage - VAC") or 0
 		row["total_eggs"] = row["eggs"] + row["breakage"]
 
-		kuku_var = get_kuku_qty(d.posting_date, d.batch, "kuku", "Shamba - Vk") or 0
+		# kuku_var section to ignore
+		kuku_var = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Mgolole store - VAC") or 0
 		if kuku_var !=0:
 			row["kuku_stock"] = kuku_var
 		else:
-			row["kuku_stock"] = get_kuku("kuku", "Shamba - Vk")
-		row["mortality"] = get_kuku_qty(d.posting_date, d.batch, "kuku", "Mortality Warehouse - Vk") or 0
+			row["kuku_stock"] = get_kuku("Kuku", "Mgolole store - VAC")
+		
+		# end of kuku_var
 
-		row["percent"] = (row["mortality"] / (row["mortality"] + row["kuku_stock"])) * 100
+		row["mortality"] = get_kuku_qty(d.posting_date, d.batch, "Kuku", "Dakawa Mortality - VAC") or 0
 
+		row["kuku_sold"] = get_kuku_sold(d.posting_date, d.batch,"Kuku", "Mgolole store - VAC", "Sales Invoice") or 0
+		row["kuku_by_batch"] = get_kuku_batch(d.posting_date, d.batch,"Kuku", "Mgolole store - VAC") or 0 
 
-		row["feeds"] = get_consumed_qty(d.posting_date, d.batch, "Growers Mash", "Shamba - Vk") or 0
-		row["vaccine"] = get_consumed_qty(d.posting_date, d.batch, "Vaccine", "Shamba - Vk") or 0
-		row["water"] = get_consumed_qty(d.posting_date, d.batch, "Water", "Shamba - Vk") or 0
+		if row["total_eggs"] !=0:
+			row["percent"] = (row["eggs"] / row["total_eggs"] ) * 100
+		else:
+			row["percent"] = 0
+
+		row["feeds"] = get_consumed_qty(d.posting_date, d.batch, "Layers Mash", "Mgolole store - VAC") or 0
+		row["vaccine"] = get_consumed_qty(d.posting_date, d.batch, "Vaccine", "Mgolole store - VAC") or 0
+		row["water"] = get_consumed_qty(d.posting_date, d.batch, "Water", "Mgolole store - VAC") or 0
 	
 		# if d.posting_date == row['date'] and d.batch == row["batch_ref"]:
 			
-		# 	if d.item_code == "Eggs":
+		# 	if d.item_code == "Mayai":
 		# 		if d.t_warehouse == "Breakage Warehouse - Vk":
 		# 			row['breakage'] = d.qty
 		# 		else:
 		# 			row['eggs'] = d.qty
 		# 	#row['total_eggs'] = row["eggs"] + row["breakage"]
 
-			# if d.item_code == "kuku":
+			# if d.item_code == "Kuku":
 			# 	if d.t_warehouse == "Mortality Warehouse - Vk":
 			# 		row['mortality'] = d.qty
 			# 	else:
@@ -65,6 +75,7 @@ def execute(filters=None):
 
 
 		data.append(row)
+		#frappe.throw(frappe.as_json(data))
 
 	return columns, data
 
@@ -89,6 +100,12 @@ def get_column():
 			"label": "Tarehe",
 			"fieldtype": "Date",
 			'width': 150
+		},
+		{
+			"fieldname":"tray",
+			"label": "Tray",
+			"fieldtype": "Data",
+			'width': 120
 		},
 		{
 			"fieldname":"eggs",
@@ -120,9 +137,21 @@ def get_column():
 			"fieldtype": "Data",
 			"width": 120,
 		},
+		# {
+		# 	"fieldname":"kuku_stock",
+		# 	"label": "Stock",
+		# 	"fieldtype": "Data",
+		# 	'width': 120
+		# },
+		# {
+		# 	"fieldname":"kuku_sold",
+		# 	"label": "Sold",
+		# 	"fieldtype": "Data",
+		# 	'width': 120
+		# },
 		{
-			"fieldname":"kuku_stock",
-			"label": "Stock",
+			"fieldname":"kuku_by_batch",
+			"label": "Stock By Batch",
 			"fieldtype": "Data",
 			'width': 120
 		},
@@ -134,7 +163,7 @@ def get_column():
 		},
 		{
 			"fieldname":"feeds",
-			"label": "Feeds",
+			"label": "Feeds (Bags)",
 			"fieldtype": "Data",
 			'width': 120
 		},
@@ -171,7 +200,7 @@ def get_data(filters):
 			`tabBatch Record` tbr ON tse.batch = tbr.name
 		where tse.posting_date BETWEEN %(from_date)s AND %(to_date)s
 		AND tse.batch != '' AND tse.docstatus !=2
-		GROUP BY tse.posting_date
+		GROUP BY tse.posting_date, tse.batch
 		order by tse.posting_date ASC
 		"""+ where, where_filter, as_dict=1)
 	return data
@@ -180,7 +209,7 @@ def get_data(filters):
 def get_egg_qty(date, batch, item, warehouse):
 	qty = 0
 	data= frappe.db.sql("""select ed.qty, ed.s_warehouse, ed.t_warehouse, 
-		se.posting_date, ed.batch_no  
+		se.posting_date, se.batch  
 		from `tabStock Entry` se
 		inner join
 		`tabStock Entry Detail` ed on se.name = ed.parent
@@ -193,7 +222,7 @@ def get_egg_qty(date, batch, item, warehouse):
 def get_kuku_qty(date, batch, item, warehouse):
 	qty = 0
 	data= frappe.db.sql("""select ed.qty, ed.s_warehouse, ed.t_warehouse, 
-		se.posting_date, ed.batch_no 
+		se.posting_date, se.batch 
 		from `tabStock Entry` se
 		inner join
 		`tabStock Entry Detail` ed on se.name = ed.parent
@@ -230,3 +259,28 @@ def get_consumed_qty(date, batch, item, warehouse):
 # 		`tabSales Invoice Item` c on p.name = c.parent where c.item_code = %s and p.docstatus = 1
 # 		""",(item), as_dict=1)
 # 	return data
+
+
+def get_kuku_batch(date, batch, item, warehouse):
+	qty = 0
+	data= frappe.db.sql("""select sum(sle.actual_qty), sle.warehouse, sle.item_code, 
+		sle.posting_date, sle.batch_no 
+		from `tabStock Ledger Entry` sle
+		where posting_date <= %s and batch_no = %s and item_code = %s and warehouse=%s
+		and sle.docstatus != 2
+		""",(date, batch, item,warehouse))
+	if data:
+		qty = data[0][0] or 0
+	return qty
+
+def get_kuku_sold(date, batch, item, warehouse, voucher_type):
+	qty = 0
+	data= frappe.db.sql("""select sum(sle.actual_qty), sle.warehouse, sle.item_code, 
+		sle.posting_date, sle.batch_no, sle.voucher_type
+		from `tabStock Ledger Entry` sle
+		where posting_date = %s and batch_no = %s and item_code = %s and warehouse=%s
+		and sle.docstatus != 2 and voucher_type = %s
+		""",(date, batch, item,warehouse, voucher_type))
+	if data:
+		qty = data[0][0] or 0
+	return qty
